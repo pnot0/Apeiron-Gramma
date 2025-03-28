@@ -1,5 +1,7 @@
 package com.example.examplemod.item;
 
+import com.example.examplemod.screens.MagicCircleCurrentPresets;
+
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -8,7 +10,7 @@ import net.minecraft.world.level.Level;
 
 public class ChangeGuiPresetItem extends Item{
 
-	private static int changePresetKey = 0;
+	private static boolean changePresetKey = false;
 	
 	public ChangeGuiPresetItem(Properties properties) {
 		super(properties);
@@ -17,8 +19,12 @@ public class ChangeGuiPresetItem extends Item{
 	@Override
 	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		if (level.isClientSide) {
-			changePresetKey = (changePresetKey + 1) % 2;
-
+			changePresetKey = !changePresetKey;
+			if(changePresetKey) {
+				MagicCircleCurrentPresets.INSTANCE.setPreset("textures/gui/3sided_circle.png", 512, 3);
+			}else {
+				MagicCircleCurrentPresets.INSTANCE.setPreset("textures/gui/5sided_circle.png", 512, 5);
+			}
         }
         return InteractionResult.SUCCESS;
 	}

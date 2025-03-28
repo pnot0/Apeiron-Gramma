@@ -8,12 +8,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
-public class MagicCircle extends AbstractBaseOverlay {
+public class MagicCircle extends AbstractBaseOverlay implements PresetObserver{
 	public static final MagicCircle INSTANCE = new MagicCircle();
-    protected final ResourceLocation TEXTURE = ExampleMod.prefix(MagicCircleCurrentPresets.textureLocation);
-    protected final int guiSize = MagicCircleCurrentPresets.guiSize;
-    protected final int amountOfEdges = MagicCircleCurrentPresets.edges;
-    protected final int anglePerEdge = 360 / amountOfEdges;
+    protected ResourceLocation TEXTURE = null;
+    protected int guiSize = 0;
+    protected int amountOfEdges = 0;
+    protected int anglePerEdge = 0;
     
     protected float rotationAngle = 0;
     protected int rotationClamp = 0;
@@ -23,14 +23,15 @@ public class MagicCircle extends AbstractBaseOverlay {
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         if (!overlayVisible) return;
-
+    	MagicCircleCurrentPresets.INSTANCE.addObserver(this);
         int width = (guiSize / (int) minecraft.getWindow().getGuiScale()) - minecraft.getWindow().getGuiScaledWidth();
         int height = width;
         float xPos = (float) (width / -1.7);
         float yPos = xPos;
-    	
-        updateRotation(deltaTracker);
-        renderRotatedTexture(guiGraphics, TEXTURE, xPos, yPos, width, height, 0x8FFFFFFF);
+    	if(TEXTURE != null) {
+    		updateRotation(deltaTracker);
+            renderRotatedTexture(guiGraphics, TEXTURE, xPos, yPos, width, height, 0x8FFFFFFF);
+    	}
     }
 
     protected void updateRotation(DeltaTracker deltaTracker) {
@@ -70,4 +71,14 @@ public class MagicCircle extends AbstractBaseOverlay {
         );
         poseStack.popPose();
     }
+
+	@Override
+	public void update(String newTextureLocation, int newGuiSize, int newEdges) {
+		this.TEXTURE = ExampleMod.prefix(newTextureLocation);
+		this.guiSize = newGuiSize;
+		this.amountOfEdges = newEdges;
+		this.anglePerEdge = 360/newEdges;
+		this.rotationAngle = 0;
+		this.rotationClamp = 0;
+	}
 }

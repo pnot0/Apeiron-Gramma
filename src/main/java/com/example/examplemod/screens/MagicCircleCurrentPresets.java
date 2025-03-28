@@ -1,9 +1,36 @@
 package com.example.examplemod.screens;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MagicCircleCurrentPresets {
-	public static String textureLocation = "textures/gui/3sided_circle.png";
-	public static int guiSize = 512;
-	public static int edges = 3;
+	public String textureLocation = "textures/gui/3sided_circle.png";
+	public int guiSize = 512;
+	public int edges = 3;
 	
-	//TODO make this dynamic and able to change at runtime so magiccircle changes
+	public static final MagicCircleCurrentPresets INSTANCE = new MagicCircleCurrentPresets();
+	
+	private final List<PresetObserver> observers = new ArrayList<>();
+	
+	public void setPreset(String textureLocation, int guiSize, int edges) {
+		this.textureLocation = textureLocation;
+		this.guiSize = guiSize;
+		this.edges = edges;
+		notifyObservers();
+	}
+	
+	public void addObserver(PresetObserver observer) {
+		observers.add(observer);
+	}
+	
+	public void removeObserver(PresetObserver observer) {
+		observers.remove(observer);
+	}
+	
+	private void notifyObservers() {
+		for(PresetObserver observer : observers) {
+			observer.update(textureLocation, guiSize, edges);
+		}
+	}
 }
+
