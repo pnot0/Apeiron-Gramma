@@ -1,22 +1,23 @@
 package com.example.examplemod.item;
 
-import com.example.examplemod.screens.MagicCircle;
+import com.example.examplemod.screens.EmptySocket;
+
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
-public class GuiSummonItem extends Item{
+public class SacredKnife extends Item{
 
-	public GuiSummonItem(Properties properties) {
+	public SacredKnife(Properties properties) {
 		super(properties);
 	}
-	
+
 	@Override
 	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		if (level.isClientSide) {
-            MagicCircle.INSTANCE.overlayVisible = !MagicCircle.INSTANCE.overlayVisible;
+			EmptySocket.INSTANCE.overlayVisible = !EmptySocket.INSTANCE.overlayVisible;
         }
         return InteractionResult.SUCCESS;
 	}

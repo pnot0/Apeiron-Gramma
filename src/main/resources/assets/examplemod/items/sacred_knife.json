@@ -1,0 +1,9 @@
+{
+    "model": {
+        "type": "minecraft:model",
+        "model": "examplemod:item/sacred_knife"
+    },
+    "properties": {
+        "hand_animation_on_swap": false
+    }
+}
