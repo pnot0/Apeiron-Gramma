@@ -1,7 +1,7 @@
 {
     "model": {
         "type": "minecraft:model",
-        "model": "examplemod:item/gui_summon"
+        "model": "apeirongramma:item/sacred_knife"
     },
     "properties": {
         "hand_animation_on_swap": false

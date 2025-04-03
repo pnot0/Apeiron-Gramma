@@ -1,8 +1,9 @@
-package com.example.examplemod.screens;
+package com.pnot0.apeirongramma.screens;
 
-import com.example.examplemod.ExampleMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import com.pnot0.apeirongramma.ApeironGramma;
+
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
@@ -10,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class MagicCircle extends AbstractBaseOverlay implements PresetObserver{
 	public static final MagicCircle INSTANCE = new MagicCircle();
-    protected ResourceLocation TEXTURE = null;
+    protected ResourceLocation TEXTURE;
     protected int guiSize = 0;
     protected int amountOfEdges = 0;
     protected int anglePerEdge = 0;
@@ -28,10 +29,9 @@ public class MagicCircle extends AbstractBaseOverlay implements PresetObserver{
         int height = width;
         float xPos = (float) (width / -1.7);
         float yPos = xPos;
-    	if(TEXTURE != null) {
-    		updateRotation(deltaTracker);
-            renderRotatedTexture(guiGraphics, TEXTURE, xPos, yPos, width, height, 0x8FFFFFFF);
-    	}
+        if (TEXTURE == null) return;
+		updateRotation(deltaTracker);
+        renderRotatedTexture(guiGraphics, TEXTURE, xPos, yPos, width, height, 0x8FFFFFFF);
     }
 
     protected void updateRotation(DeltaTracker deltaTracker) {
@@ -74,7 +74,7 @@ public class MagicCircle extends AbstractBaseOverlay implements PresetObserver{
 
 	@Override
 	public void update(String newTextureLocation, int newGuiSize, int newEdges) {
-		this.TEXTURE = ExampleMod.prefix(newTextureLocation);
+		this.TEXTURE = ApeironGramma.prefix(newTextureLocation);
 		this.guiSize = newGuiSize;
 		this.amountOfEdges = newEdges;
 		this.anglePerEdge = 360/newEdges;

@@ -1,6 +1,6 @@
-package com.example.examplemod.item;
+package com.pnot0.apeirongramma.item;
 
-import com.example.examplemod.screens.MagicCircleCurrentPresets;
+import com.pnot0.apeirongramma.screens.MagicCircleCurrentPresets;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

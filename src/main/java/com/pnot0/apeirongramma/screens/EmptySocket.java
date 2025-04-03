@@ -1,7 +1,7 @@
-package com.example.examplemod.screens;
+package com.pnot0.apeirongramma.screens;
 
-import com.example.examplemod.ExampleMod;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.pnot0.apeirongramma.ApeironGramma;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class EmptySocket extends AbstractBaseOverlay {
 	public static final EmptySocket INSTANCE = new EmptySocket();
-    private static final ResourceLocation TEXTURE = ExampleMod.prefix("textures/gui/empty_socket.png");
+    private static final ResourceLocation TEXTURE = ApeironGramma.prefix("textures/gui/empty_socket.png");
     
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {

@@ -1,6 +1,6 @@
-package com.example.examplemod.item;
+package com.pnot0.apeirongramma.item;
 
-import com.example.examplemod.ExampleMod;
+import com.pnot0.apeirongramma.ApeironGramma;
 
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
@@ -10,9 +10,9 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModItemRegister {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(ExampleMod.MODID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(ApeironGramma.MODID);
     
-    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", ExampleMod.EXAMPLE_BLOCK);
+    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", ApeironGramma.EXAMPLE_BLOCK);
     
     public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem(
     		"example_item",

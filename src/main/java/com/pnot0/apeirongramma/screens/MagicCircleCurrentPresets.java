@@ -1,4 +1,4 @@
-package com.example.examplemod.screens;
+package com.pnot0.apeirongramma.screens;
 
 import java.util.ArrayList;
 import java.util.List;

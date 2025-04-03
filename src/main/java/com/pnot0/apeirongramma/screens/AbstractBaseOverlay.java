@@ -1,4 +1,4 @@
-package com.example.examplemod.screens;
+package com.pnot0.apeirongramma.screens;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;

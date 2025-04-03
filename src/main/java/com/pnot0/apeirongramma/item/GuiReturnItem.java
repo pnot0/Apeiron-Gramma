@@ -1,6 +1,6 @@
-package com.example.examplemod.item;
+package com.pnot0.apeirongramma.item;
 
-import com.example.examplemod.screens.EmptySocket;
+import com.pnot0.apeirongramma.screens.MagicCircle;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -8,16 +8,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
-public class SacredKnife extends Item{
+public class GuiReturnItem extends Item{
 
-	public SacredKnife(Properties properties) {
+	public GuiReturnItem(Properties properties) {
 		super(properties);
 	}
 
 	@Override
 	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		if (level.isClientSide) {
-			EmptySocket.INSTANCE.overlayVisible = !EmptySocket.INSTANCE.overlayVisible;
+			if(!MagicCircle.INSTANCE.overlayAdvance) {
+				MagicCircle.INSTANCE.overlayReturn = true;
+			}
         }
         return InteractionResult.SUCCESS;
 	}
