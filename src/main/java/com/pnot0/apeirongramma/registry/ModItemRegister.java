@@ -1,6 +1,12 @@
-package com.pnot0.apeirongramma.item;
+package com.pnot0.apeirongramma.registry;
 
 import com.pnot0.apeirongramma.ApeironGramma;
+import com.pnot0.apeirongramma.item.ChangeGuiPresetItem;
+import com.pnot0.apeirongramma.item.EyeItem;
+import com.pnot0.apeirongramma.item.GuiAdvanceItem;
+import com.pnot0.apeirongramma.item.GuiReturnItem;
+import com.pnot0.apeirongramma.item.GuiSummonItem;
+import com.pnot0.apeirongramma.item.SacredKnife;
 
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
@@ -53,6 +59,12 @@ public class ModItemRegister {
     		ChangeGuiPresetItem::new,
     		new Item.Properties()
 		);
+    
+    public static final DeferredItem<Item> EYE_ITEM = ITEMS.registerItem(
+    		"eye_item",
+    		EyeItem::new,
+    		new Item.Properties().stacksTo(1)
+    	);
     
     public static void register(IEventBus eventBus) {
     	ITEMS.register(eventBus);

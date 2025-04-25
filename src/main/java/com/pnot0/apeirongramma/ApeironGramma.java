@@ -3,7 +3,8 @@ package com.pnot0.apeirongramma;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
-import com.pnot0.apeirongramma.item.ModItemRegister;
+import com.pnot0.apeirongramma.registry.ModItemRegister;
+import com.pnot0.apeirongramma.registry.ModMenuRegister;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -65,6 +66,7 @@ public class ApeironGramma
                 output.accept(ModItemRegister.RETURN_GUI.get());
                 output.accept(ModItemRegister.SACRED_KNIFE.get());
                 output.accept(ModItemRegister.CHANGE_GUI.get());
+                output.accept(ModItemRegister.EYE_ITEM.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
@@ -81,6 +83,7 @@ public class ApeironGramma
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
 
+        ModMenuRegister.register(modEventBus);
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.

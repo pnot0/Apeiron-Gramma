@@ -9,7 +9,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
-public class MagicCircle extends AbstractBaseOverlay implements PresetObserver{
+public class MagicCircle extends AbstractBaseOverlay implements IPresetObserver{
 	public static final MagicCircle INSTANCE = new MagicCircle();
     protected ResourceLocation TEXTURE;
     protected int guiSize = 0;

@@ -1,4 +1,4 @@
-package com.pnot0.apeirongramma.client.registry;
+package com.pnot0.apeirongramma.registry.client;
 
 import com.pnot0.apeirongramma.ApeironGramma;
 import com.pnot0.apeirongramma.screens.EmptySocket;

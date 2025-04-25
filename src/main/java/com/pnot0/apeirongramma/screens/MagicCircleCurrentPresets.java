@@ -10,7 +10,7 @@ public class MagicCircleCurrentPresets {
 	
 	public static final MagicCircleCurrentPresets INSTANCE = new MagicCircleCurrentPresets();
 	
-	private final List<PresetObserver> observers = new ArrayList<>();
+	private final List<IPresetObserver> observers = new ArrayList<>();
 	
 	public void setPreset(String textureLocation, int guiSize, int edges) {
 		this.textureLocation = textureLocation;
@@ -19,16 +19,16 @@ public class MagicCircleCurrentPresets {
 		notifyObservers();
 	}
 	
-	public void addObserver(PresetObserver observer) {
+	public void addObserver(IPresetObserver observer) {
 		observers.add(observer);
 	}
 	
-	public void removeObserver(PresetObserver observer) {
+	public void removeObserver(IPresetObserver observer) {
 		observers.remove(observer);
 	}
 	
 	private void notifyObservers() {
-		for(PresetObserver observer : observers) {
+		for(IPresetObserver observer : observers) {
 			observer.update(textureLocation, guiSize, edges);
 		}
 	}
