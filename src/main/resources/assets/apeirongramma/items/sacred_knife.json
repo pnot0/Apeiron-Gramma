@@ -1,9 +1,0 @@
-{
-    "model": {
-        "type": "minecraft:model",
-        "model": "apeirongramma:item/sacred_knife"
-    },
-    "properties": {
-        "hand_animation_on_swap": false
-    }
-}

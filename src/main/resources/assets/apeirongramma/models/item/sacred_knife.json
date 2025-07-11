@@ -1,6 +1,0 @@
-{
-	"parent": "minecraft:item/generated",
-	"textures":{
-		"layer0": "apeirongramma:item/sacred_knife"
-	}
-}
