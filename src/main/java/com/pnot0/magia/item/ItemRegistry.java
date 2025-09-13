@@ -21,6 +21,6 @@ public class ItemRegistry {
     public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("food_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEat().nutrition(1).saturationMod(2f).build())));
 
-    public static final RegistryObject<Item> SOCKET_ITEM = ITEMS.register("socket_item", () -> new Item(new SocketItem.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> SOCKET_ITEM = ITEMS.register("socket_item", () -> new SocketItem(new Item.Properties().stacksTo(1)));
     
 }

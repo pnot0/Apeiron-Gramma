@@ -2,9 +2,11 @@ package com.pnot0.magia;
 
 import com.mojang.logging.LogUtils;
 import com.pnot0.magia.gui.SocketContainer;
+import com.pnot0.magia.gui.SocketGUI;
 import com.pnot0.magia.item.ItemRegistry;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.MenuType;
@@ -105,6 +107,8 @@ public class Magia
         {
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            
+            MenuScreens.register(SOCKET_CONTAINER.get(), SocketGUI::new);
         }
     }
 }

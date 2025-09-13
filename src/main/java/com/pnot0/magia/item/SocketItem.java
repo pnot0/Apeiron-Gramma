@@ -2,6 +2,10 @@ package com.pnot0.magia.item;
 
 import java.util.UUID;
 
+import org.openjdk.nashorn.internal.runtime.options.LoggingOption.LoggerInfo;
+
+import com.mojang.logging.LogUtils;
+import com.pnot0.magia.Magia;
 import com.pnot0.magia.gui.SocketContainer;
 import com.pnot0.magia.inventory.SocketData;
 import com.pnot0.magia.inventory.SocketManager;
@@ -33,25 +37,30 @@ public class SocketItem extends Item{
 		}else {
 			uuid = tag.getUUID("UUID");
 		}
+		LogUtils.getLogger().info("attempt getOrCreateSocket");
 		return SocketManager.get().getOrCreateSocket(uuid);
 	}
 	
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		LogUtils.getLogger().info("attempt to use item");
+
 		ItemStack itemStack = player.getItemInHand(hand);
 		if(!level.isClientSide() && itemStack.getItem() instanceof SocketItem) {
 			SocketData data = SocketItem.getData(itemStack);
 			
 			UUID uuid = data.getUUID();
 			
+			LogUtils.getLogger().info("attempt to open screen");
 			NetworkHooks.openScreen(
 					((ServerPlayer) player), 
 					new SimpleMenuProvider((windowId, playerInventory, playerEntity) -> 
 					new SocketContainer(windowId, playerInventory, uuid, data.getHandler()), 
 					itemStack.getHoverName()), (buffer -> buffer.writeUUID(uuid)));
 		}
-		return InteractionResultHolder.success(player.getItemInHand(hand));
 		
+		return InteractionResultHolder.consume(player.getItemInHand(hand));
+
 	}	
 
 }
