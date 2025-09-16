@@ -27,7 +27,9 @@ public class SocketManager extends SavedData{
 	
 	public static SocketManager get() {
 		if(Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER)
-			return ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD).getDataStorage().computeIfAbsent(SocketManager::load, SocketManager::new, SAVE_NAME);
+			return ServerLifecycleHooks.getCurrentServer()
+					.getLevel(Level.OVERWORLD).getDataStorage()
+					.computeIfAbsent(SocketManager::load, SocketManager::new, SAVE_NAME);
 		else
 			return blankClient;
 	}
@@ -42,7 +44,11 @@ public class SocketManager extends SavedData{
 	public static SocketManager load(CompoundTag tag) {
 		if(tag.contains("Sockets")) {
 			ListTag list = tag.getList("Sockets", Tag.TAG_COMPOUND);
-			list.forEach((socketNBT) -> SocketData.fromNBT((CompoundTag) socketNBT).ifPresent((socket) -> mappedData.put(socket.getUUID(), socket)));
+			list.forEach(
+					(socketNBT) -> SocketData.fromNBT((CompoundTag) socketNBT).ifPresent(
+									(socket) -> mappedData.put(socket.getUUID(), socket)
+							)
+					);
 		}
 		return new SocketManager();
 	}

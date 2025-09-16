@@ -5,6 +5,7 @@ import java.util.UUID;
 
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 
@@ -23,22 +24,27 @@ public class SocketData {
     
     public SocketData(UUID uuid) {
     	this.uuid = uuid;
-    	
     	this.inventory = new SocketItemHandler(3);
     	this.optional = LazyOptional.of(() -> this.inventory);
     }
     
     public SocketData(UUID uuid, CompoundTag tag) {
     	this.uuid = uuid;
-    	
     	this.inventory = new SocketItemHandler(3);
     	if(tag.getCompound("Inventory").contains("Size")) {
     		if(tag.getCompound("Inventory").getInt("Size") != 3)
     			tag.getCompound("Inventory").putInt("Size", 3);
     	}
     	this.inventory.deserializeNBT(tag.getCompound("Inventory"));
-    	
 		this.optional = LazyOptional.of(()-> this.inventory);
+    }
+    
+    public ItemStack getStackInSlot(int slot) {
+    	return this.inventory.getStackInSlot(slot);
+    }
+    
+    public int getSlots() {
+    	return this.inventory.getSlots();
     }
     
     public UUID	getUUID() {

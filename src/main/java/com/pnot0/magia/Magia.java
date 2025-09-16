@@ -1,6 +1,7 @@
 package com.pnot0.magia;
 
 import com.mojang.logging.LogUtils;
+import com.pnot0.magia.gui.MagiaCircle;
 import com.pnot0.magia.gui.SocketContainer;
 import com.pnot0.magia.gui.SocketGUI;
 import com.pnot0.magia.item.ItemRegistry;
@@ -8,6 +9,7 @@ import com.pnot0.magia.item.ItemRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
@@ -19,6 +21,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -49,9 +53,8 @@ public class Magia
 
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("magia", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> ItemRegistry.EXAMPLE_ITEM.get().getDefaultInstance())
+            .icon(() -> ItemRegistry.SOCKET_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(ItemRegistry.EXAMPLE_ITEM.get());
                 output.accept(ItemRegistry.SOCKET_ITEM.get());
                 
             }).build());
@@ -89,7 +92,7 @@ public class Magia
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(ItemRegistry.EXAMPLE_ITEM);
+            event.accept(ItemRegistry.SOCKET_ITEM);
     }
 
     @SubscribeEvent
@@ -109,6 +112,12 @@ public class Magia
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
             
             MenuScreens.register(SOCKET_CONTAINER.get(), SocketGUI::new);
+            
+        }
+        
+        @SubscribeEvent
+        public static void registerOverlays(RegisterGuiOverlaysEvent event) {
+        	event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), MODID + "_overlay", new MagiaCircle()::render);
         }
     }
 }

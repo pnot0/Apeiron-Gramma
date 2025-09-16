@@ -10,6 +10,8 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class SocketGUI extends AbstractContainerScreen<SocketContainer>{
 
+	private final ResourceLocation GUI;
+	
 	public SocketGUI(SocketContainer container, Inventory playerInventory, Component name) {
 		super(container, playerInventory, name);
 		
@@ -23,8 +25,6 @@ public class SocketGUI extends AbstractContainerScreen<SocketContainer>{
 	protected void init() {
 		super.init();
 	}
-	
-	private final ResourceLocation GUI;
 	
 	@Override
 	protected void renderBg(GuiGraphics graphics, float tick, int x, int y) {
