@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.mojang.logging.LogUtils;
 import com.pnot0.magia.Magia;
+import com.pnot0.magia.inventory.SocketContainerSlot;
 import com.pnot0.magia.item.ItemRegistry;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -36,9 +37,9 @@ public class SocketContainer extends AbstractContainerMenu{
 		
 		addPlayerSlots(inventory);
 		
-		this.addSlot(new SlotItemHandler(this.handler, 0, 65, 36));
-		this.addSlot(new SlotItemHandler(this.handler, 1, 80, 10));
-		this.addSlot(new SlotItemHandler(this.handler, 2, 95, 36));
+		this.addSlot(new SocketContainerSlot(this.handler, 0, 65, 36));
+		this.addSlot(new SocketContainerSlot(this.handler, 1, 80, 10));
+		this.addSlot(new SocketContainerSlot(this.handler, 2, 95, 36));
 	}
 	
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
@@ -118,9 +119,9 @@ public class SocketContainer extends AbstractContainerMenu{
         	getSlot(slot).container.setChanged();
         
         	//Kinda jank but works on filtering what item is inside socket container
-        	if(getSlot(slot).getItem().getItem() != ItemRegistry.TEST_SPELLSCHOOL.get() && getSlot(slot).getItem() != ItemStack.EMPTY) {
-            	return;
-    		}
+        	//if(getSlot(slot).getItem().getItem() != ItemRegistry.TEST_SPELLSCHOOL.get() && getSlot(slot).getItem() != ItemStack.EMPTY) {
+            //	return;
+    		//}
         }
         
         super.clicked(slot, dragType, clickType, player);
