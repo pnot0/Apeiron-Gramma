@@ -56,6 +56,7 @@ public class Magia
             .icon(() -> ItemRegistry.SOCKET_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(ItemRegistry.SOCKET_ITEM.get());
+                output.accept(ItemRegistry.TEST_SPELLSCHOOL.get());
                 
             }).build());
 

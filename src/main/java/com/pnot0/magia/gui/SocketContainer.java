@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.mojang.logging.LogUtils;
 import com.pnot0.magia.Magia;
+import com.pnot0.magia.item.ItemRegistry;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -35,9 +36,9 @@ public class SocketContainer extends AbstractContainerMenu{
 		
 		addPlayerSlots(inventory);
 		
-		this.addSlot(new SlotItemHandler(this.handler, 0, 60, 11));
-		this.addSlot(new SlotItemHandler(this.handler, 1, 80, 11));
-		this.addSlot(new SlotItemHandler(this.handler, 2, 100, 11));
+		this.addSlot(new SlotItemHandler(this.handler, 0, 65, 36));
+		this.addSlot(new SlotItemHandler(this.handler, 1, 80, 10));
+		this.addSlot(new SlotItemHandler(this.handler, 2, 95, 36));
 	}
 	
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
@@ -97,21 +98,43 @@ public class SocketContainer extends AbstractContainerMenu{
 	
 	@Override
 	public void clicked(int slot, int dragType, ClickType clickType, Player player) {
-        if (clickType == ClickType.SWAP)
+		/*
+		if(slot>=0) {
+			LogUtils.getLogger().info("slot: " + Integer.toString(slot));
+			LogUtils.getLogger().info(getSlot(slot).getItem().toString());
+			LogUtils.getLogger().info("click type: " + ClickType.SWAP.toString());
+		}
+		
+		*/
+		
+		//Prevent moving socket item
+		if(slot >= 0 && getSlot(slot).getItem() == player.getMainHandItem())
+			return;
+		
+		if (clickType == ClickType.SWAP)
             return;
-        if (slot >= 0) getSlot(slot).container.setChanged();
+		
+        if (slot >= 0) {
+        	getSlot(slot).container.setChanged();
+        
+        	//Kinda jank but works on filtering what item is inside socket container
+        	if(getSlot(slot).getItem().getItem() != ItemRegistry.TEST_SPELLSCHOOL.get() && getSlot(slot).getItem() != ItemStack.EMPTY) {
+            	return;
+    		}
+        }
+        
         super.clicked(slot, dragType, clickType, player);
-	}
+        }
 	
 	private void addPlayerSlots(Inventory playerInventory) {
 		for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + (l * 18), 68 + (i * 18)));
             }
         }
 
         for (int k = 0; k < 9; ++k) {
-            this.addSlot(new Slot(playerInventory, k, 8 + k * 18, 142));
+            this.addSlot(new Slot(playerInventory, k, 8 + (k * 18), 126));
         }
 	}
 

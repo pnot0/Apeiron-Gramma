@@ -16,6 +16,8 @@ public class ItemRegistry {
 		ITEMS.register(eventBus);
     }
     
+    public static final RegistryObject<Item> TEST_SPELLSCHOOL = ITEMS.register("test_spellschool", () -> new Item(new Item.Properties().stacksTo(1)));
+    
     public static final RegistryObject<Item> SOCKET_ITEM = ITEMS.register("socket_item", () -> new SocketItem(new Item.Properties().stacksTo(1)));
     
 }
