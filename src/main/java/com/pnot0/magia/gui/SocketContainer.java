@@ -117,11 +117,6 @@ public class SocketContainer extends AbstractContainerMenu{
 		
         if (slot >= 0) {
         	getSlot(slot).container.setChanged();
-        
-        	//Kinda jank but works on filtering what item is inside socket container
-        	//if(getSlot(slot).getItem().getItem() != ItemRegistry.TEST_SPELLSCHOOL.get() && getSlot(slot).getItem() != ItemStack.EMPTY) {
-            //	return;
-    		//}
         }
         
         super.clicked(slot, dragType, clickType, player);
