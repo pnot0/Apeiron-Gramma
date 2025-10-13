@@ -2,7 +2,7 @@ package com.pnot0.magia.inventory;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.pnot0.magia.item.ItemRegistry;
+import com.pnot0.magia.item.SpellSchoolItem;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
@@ -16,7 +16,7 @@ public class SocketContainerSlot extends SlotItemHandler{
 	
 	@Override
 	public boolean mayPlace(@NotNull ItemStack stack) {
-		if(stack.getItem() == ItemRegistry.TEST_SPELLSCHOOL.get())
+		if(stack.getItem() instanceof SpellSchoolItem)
 			return super.mayPlace(stack);
 		else
 			return false;

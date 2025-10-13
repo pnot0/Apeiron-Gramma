@@ -1,24 +1,22 @@
 package com.pnot0.magia.gui;
 
 import java.awt.Color;
-import java.util.logging.Logger;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.logging.LogUtils;
 import com.mojang.math.Axis;
 import com.pnot0.magia.Magia;
+import com.pnot0.magia.data.SpellSchoolData;
 import com.pnot0.magia.inventory.SocketData;
 import com.pnot0.magia.item.ItemRegistry;
 import com.pnot0.magia.item.SocketItem;
+import com.pnot0.magia.item.SpellSchoolItem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class MagiaCircle implements IGuiOverlay{
 	
@@ -36,13 +34,14 @@ public class MagiaCircle implements IGuiOverlay{
 	public void render(ForgeGui gui, GuiGraphics graphics, float tick, int screenWidth, int screenHeight) {
 		if(minecraft.player.getMainHandItem().getItem() == ItemRegistry.SOCKET_ITEM.get()) {
 			
-			//TODO make this better later in refactoring
-			SocketData data = SocketItem.getData(minecraft.player.getMainHandItem());
+			//TODO holy shit doc this math im getting lost
+			//TODO make a dedicated magiacircle logic class, instead of calling and putting everything in the render pipeline
+			SocketData socketData = SocketItem.getData(minecraft.player.getMainHandItem());
 			
 	        float xPos = (screenWidth / -1.7f) + (screenWidth / 2f);
 	        float yPos = xPos;
 	        
-	        float centerPos = (xPos + (xPos + (float) WIDTH)) / 2f;
+	        float centerPos = ((float) xPos + (xPos + (float) WIDTH)) / 2f;
 	        
 	        //LogUtils.getLogger().info("xpos: " + Float.toString(xPos));
 	        //LogUtils.getLogger().info("end xpos: " + Float.toString(xPos + (float) WIDTH));
@@ -52,26 +51,43 @@ public class MagiaCircle implements IGuiOverlay{
 	        
 	        //LogUtils.getLogger().info(Float.toString(rotationAngle));
 	        
-	        int sqrSize = 10;
+	        int textureSize = 32;
 	        
-	        graphics.fill((int) centerPos - sqrSize / 2, (int) centerPos - sqrSize / 2, (int)centerPos+sqrSize, (int)centerPos+sqrSize, Color.RED.getRGB());
+	        graphics.fill((int) centerPos - textureSize / 2, (int) centerPos - textureSize / 2, (int)centerPos+textureSize/2, (int)centerPos+textureSize/2, Color.RED.getRGB());
 	        
 	        for (int s = 0; s < SIDES; s++) {
-	        	if(data.getStackInSlot(s).getItem() != Items.AIR) {
-	        		double separationRadians = Math.toRadians(ANGLE_SEPARATION * s) + Math.toRadians(- rotationAngle - 90);
-		        	int xPosRotation = (int) ((centerPos - sqrSize/2) + (WIDTH/4) * Math.cos(separationRadians));
-		        	int yPosRotation = (int) ((centerPos - sqrSize/2) + (WIDTH/4) * Math.sin(separationRadians));
+	        	if(socketData.getStackInSlot(s).getItem() != Items.AIR) {
+	        		SpellSchoolData spellSchoolData = SpellSchoolItem.getData(socketData.getStackInSlot(s));
+	        		
+	        		ResourceLocation spellSchoolTexture = 
+	        				ResourceLocation.fromNamespaceAndPath(Magia.MODID, spellSchoolData.getHandler().getTexturePath());
+	        		
+	        		// get the current angle interval, sum it to the negative rotationAngle rotated 90 degrees, convert all to radians
+	        		double separationRadians = Math.toRadians((ANGLE_SEPARATION * s) + (- rotationAngle - 90));
 		        	
-		        	int[] color = {Color.RED.getRGB(), Color.GREEN.getRGB(), Color.BLUE.getRGB()};
-
+	        		// first part: (centerPos - textureSize/2) is position of the points in cartesian plane
+	        		// second part: ((WIDTH+(textureSize/4f))/4f) + 2 is the radius of the circle/points
+	        		// third part: Math sin or cos (separationRadius) get the points in the unit circle using sine and cosine
+	        		
+	        		float xPosRotation = (float) ((centerPos - textureSize/2f) + ((WIDTH+4+(textureSize/4f))/4f) * Math.cos(separationRadians));
+		        	float yPosRotation = (float) ((centerPos - textureSize/2f) + ((WIDTH+4+(textureSize/4f))/4f) * Math.sin(separationRadians));
+		        	
+		        	//int[] color = {Color.RED.getRGB(), Color.GREEN.getRGB(), Color.BLUE.getRGB()};
 		        	//how to ARGB with bitshifts
 		        	//int color = 0;
 		        	//color |= 255 << 24;
 		        	//color |= 255 << 16;
 		        	//color |= 255 << 8;
 		        	//color |= 255;
-		        		        	
-		        	graphics.fill(xPosRotation, yPosRotation, xPosRotation+sqrSize, yPosRotation+sqrSize, color[s]);
+		        	//graphics.fill(xPosRotation, yPosRotation, xPosRotation+sqrSize, yPosRotation+sqrSize, color[s]);
+		        	PoseStack poseStack = graphics.pose();
+		        	poseStack.pushPose();
+		        	poseStack.translate(xPosRotation, yPosRotation, 0);
+		        	
+		        	graphics.blit(spellSchoolTexture, 0, 0, 0, 0, 32, 32, 32, 32);
+		        	
+		        	poseStack.popPose();
+		        	
 	        	}	        	
 	        }
 	        

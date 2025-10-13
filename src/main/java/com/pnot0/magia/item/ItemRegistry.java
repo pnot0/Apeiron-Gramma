@@ -2,6 +2,7 @@ package com.pnot0.magia.item;
 
 import com.pnot0.magia.Magia;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -16,7 +17,11 @@ public class ItemRegistry {
 		ITEMS.register(eventBus);
     }
     
-    public static final RegistryObject<Item> TEST_SPELLSCHOOL = ITEMS.register("test_spellschool", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> TEST_SPELLSCHOOL = ITEMS.register("test_spellschool", () -> new SpellSchoolItem(
+    		"textures/spellschool/test_spellschool.png"));
+    
+    public static final RegistryObject<Item> COMBAT_SPELLSCHOOL = ITEMS.register("combat_spellschool", () -> new SpellSchoolItem(
+    		"textures/spellschool/combat_spellschool.png"));
     
     public static final RegistryObject<Item> SOCKET_ITEM = ITEMS.register("socket_item", () -> new SocketItem(new Item.Properties().stacksTo(1)));
     

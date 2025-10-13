@@ -3,7 +3,6 @@ package com.pnot0.magia.inventory;
 import java.util.Optional;
 import java.util.UUID;
 
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
@@ -14,13 +13,9 @@ public class SocketData {
 	private final SocketItemHandler inventory;
     private final LazyOptional<IItemHandler> optional;
 	
-    public LazyOptional<IItemHandler> getOptional() {
-        return this.optional;
-    }
+    public LazyOptional<IItemHandler> getOptional() {return this.optional;}
 
-    public IItemHandler getHandler() {
-        return this.inventory;
-    }
+    public IItemHandler getHandler() {return this.inventory;}
     
     public SocketData(UUID uuid) {
     	this.uuid = uuid;

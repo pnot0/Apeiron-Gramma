@@ -1,28 +1,24 @@
-package com.pnot0.magia.item;
+ package com.pnot0.magia.item;
 
 import java.util.UUID;
 
-import org.openjdk.nashorn.internal.runtime.options.LoggingOption.LoggerInfo;
+import org.jetbrains.annotations.Nullable;
 
 import com.mojang.logging.LogUtils;
-import com.pnot0.magia.Magia;
-import com.pnot0.magia.gui.MagiaCircle;
 import com.pnot0.magia.gui.SocketContainer;
 import com.pnot0.magia.inventory.SocketData;
 import com.pnot0.magia.inventory.SocketManager;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.network.NetworkHooks;
 
 public class SocketItem extends Item{
@@ -44,12 +40,11 @@ public class SocketItem extends Item{
 		}
 		return SocketManager.get().getOrCreateSocket(uuid);
 	}
-
+	
 	@Override
-	public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int slotId, boolean isSelected) {
-		if(isSelected) {
-			
-		}
+	public @Nullable ICapabilityProvider initCapabilities(ItemStack itemStack, @Nullable CompoundTag nbt) {
+		getData(itemStack);
+		return super.initCapabilities(itemStack, nbt);
 	}
 	
 	@Override

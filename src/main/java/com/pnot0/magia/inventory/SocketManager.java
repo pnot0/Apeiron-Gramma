@@ -3,8 +3,6 @@ package com.pnot0.magia.inventory;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.stringtemplate.v4.compiler.STParser.compoundElement_return;
-
 import com.pnot0.magia.Magia;
 
 import net.minecraft.nbt.CompoundTag;
