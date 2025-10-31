@@ -36,13 +36,7 @@ public class SpellSchoolItem extends Item {
 	
 	@Override
 	public @Nullable ICapabilityProvider initCapabilities(ItemStack itemStack, @Nullable CompoundTag tag) {
-		//String ITEM_KEY = getDescriptionId();
-		//LogUtils.getLogger().info(itemStack.toString());
-		//tag = itemStack.getOrCreateTag();
-		//if(!tag.contains(ITEM_KEY)) tag.putString(ITEM_KEY, TEXTURE);
-		
 		getData(itemStack);
-		//LogUtils.getLogger().info(data.getHandler().getTexturePath());
 		
 		return super.initCapabilities(itemStack, tag);
 	}

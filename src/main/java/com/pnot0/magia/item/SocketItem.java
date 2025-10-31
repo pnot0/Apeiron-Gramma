@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.logging.LogUtils;
 import com.pnot0.magia.gui.SocketContainer;
+import com.pnot0.magia.gui.TrigramOverlay;
 import com.pnot0.magia.inventory.SocketData;
 import com.pnot0.magia.inventory.SocketManager;
 
@@ -14,6 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -46,6 +48,15 @@ public class SocketItem extends Item{
 		getData(itemStack);
 		return super.initCapabilities(itemStack, nbt);
 	}
+	
+	//TODO figure out a way to make this work
+	/*
+	@Override
+	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean isSelected) {
+		if(stack.getItem() == ItemRegistry.SOCKET_ITEM.get() && isSelected)
+			TrigramOverlay.instance.shouldRender(true);
+	}
+	*/
 	
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {

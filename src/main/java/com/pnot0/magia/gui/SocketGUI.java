@@ -33,8 +33,14 @@ public class SocketGUI extends AbstractContainerScreen<SocketContainer>{
 		graphics.blit(this.GUI, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 	}
 	
+	@Override
+	protected void renderLabels(GuiGraphics graphics, int x, int y) {
+		graphics.drawString(font, this.title.getString(), 7, 6, 0x404040, false);
+	}
+	
 	public void render(GuiGraphics graphics, int x, int y, float tick) {
 		this.renderBackground(graphics);
 		super.render(graphics, x, y, tick);
+		this.renderTooltip(graphics, x, y);
 	}
 }

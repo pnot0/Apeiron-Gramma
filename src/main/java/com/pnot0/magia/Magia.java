@@ -1,13 +1,16 @@
 package com.pnot0.magia;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
-import com.pnot0.magia.gui.MagiaCircle;
 import com.pnot0.magia.gui.SocketContainer;
 import com.pnot0.magia.gui.SocketGUI;
+import com.pnot0.magia.gui.TrigramOverlay;
 import com.pnot0.magia.item.ItemRegistry;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
@@ -23,7 +26,9 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -32,6 +37,8 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,13 +50,15 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 
 @Mod(Magia.MODID)
 public class Magia
 {
     public static final String MODID = "magia";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     
     private static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MODID);
@@ -65,7 +74,7 @@ public class Magia
                 output.accept(ItemRegistry.TEST_SPELLSCHOOL.get());
                 
             }).build());
-
+    
     public Magia(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
@@ -83,7 +92,7 @@ public class Magia
 
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
-
+    
     private void commonSetup(final FMLCommonSetupEvent event)
     {
         LOGGER.info("HELLO FROM COMMON SETUP");
@@ -107,11 +116,12 @@ public class Magia
     {
         LOGGER.info("HELLO from server starting");
     }
-
+    
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
+    	
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
@@ -123,7 +133,7 @@ public class Magia
         
         @SubscribeEvent
         public static void registerOverlays(RegisterGuiOverlaysEvent event) {
-        	event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), MODID + "_overlay", new MagiaCircle()::render);
+        	event.registerAboveAll(MODID + "_overlay", TrigramOverlay.instance);
         }
     }
 }
