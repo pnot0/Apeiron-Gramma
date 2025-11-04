@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import com.pnot0.magia.Magia;
+import com.pnot0.magia.item.SocketsEnum;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -32,10 +33,10 @@ public class SocketManager extends SavedData{
 			return blankClient;
 	}
 	
-	public SocketData getOrCreateSocket(UUID uuid) {
+	public SocketData getOrCreateSocket(UUID uuid, SocketsEnum socketTier) {
 		return mappedData.computeIfAbsent(uuid, id -> {
 			setDirty();
-			return new SocketData(id);
+			return new SocketData(id, socketTier);
 		});
 	}
 	

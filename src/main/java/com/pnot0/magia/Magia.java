@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
 import com.pnot0.magia.gui.SocketContainer;
 import com.pnot0.magia.gui.SocketGUI;
-import com.pnot0.magia.gui.TrigramOverlay;
+import com.pnot0.magia.gui.MagiaOverlay;
 import com.pnot0.magia.item.ItemRegistry;
 
 import net.minecraft.client.KeyMapping;
@@ -65,12 +65,12 @@ public class Magia
     public static final RegistryObject<MenuType<SocketContainer>> SOCKET_CONTAINER = CONTAINERS.register("socket_container", () -> IForgeMenuType.create(SocketContainer::fromNetwork));
     
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-
+    
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("magia", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> ItemRegistry.SOCKET_ITEM.get().getDefaultInstance())
+            .icon(() -> ItemRegistry.TRIANGLE_SOCKET.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(ItemRegistry.SOCKET_ITEM.get());
+                output.accept(ItemRegistry.TRIANGLE_SOCKET.get());
                 output.accept(ItemRegistry.TEST_SPELLSCHOOL.get());
                 
             }).build());
@@ -108,7 +108,7 @@ public class Magia
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(ItemRegistry.SOCKET_ITEM);
+            event.accept(ItemRegistry.TRIANGLE_SOCKET);
     }
 
     @SubscribeEvent
@@ -133,7 +133,7 @@ public class Magia
         
         @SubscribeEvent
         public static void registerOverlays(RegisterGuiOverlaysEvent event) {
-        	event.registerAboveAll(MODID + "_overlay", TrigramOverlay.instance);
+        	event.registerAboveAll(MODID + "_overlay", MagiaOverlay.instance);
         }
     }
 }

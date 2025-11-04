@@ -23,6 +23,12 @@ public class ItemRegistry {
     public static final RegistryObject<Item> COMBAT_SPELLSCHOOL = ITEMS.register("combat_spellschool", () -> new SpellSchoolItem(
     		"textures/spellschool/combat_spellschool.png"));
     
-    public static final RegistryObject<Item> SOCKET_ITEM = ITEMS.register("socket_item", () -> new SocketItem(new Item.Properties().stacksTo(1)));
+    //public static final RegistryObject<Item> SOCKET_ITEM = ITEMS.register("socket_item", () -> new SocketItem(new Item.Properties().stacksTo(1)));
     
+    public static final RegistryObject<Item> TRIANGLE_SOCKET = ITEMS.register("triangle_socket", () -> new SocketItem(SocketsEnum.TRIANGLE));
+    
+    //possible registry names
+    //TRIANGLE_SOCKET
+    //PENTAGRAM_SOCKET
+    //OCTAGRAM_SOCKET
 }

@@ -16,15 +16,6 @@ import net.minecraft.world.item.Items;
 public class MagiaCircle{
 	private final Minecraft minecraft = Minecraft.getInstance();
 	
-	private GuiGraphics graphics;
-	private int screenWidth;
-	private int screenHeight;
-	
-	private ResourceLocation TEXTURE;
-	private int textureWidth;
-	private int textureHeight;
-	
-	private int sides;
 	private int angleSeparation;
 	
 	private boolean overlayAdvance = false;
@@ -33,61 +24,68 @@ public class MagiaCircle{
 	private int rotationAngle = 0;
 	private int rotationClamp = 0;
 	
+	private final int increment = 360 / 36;
+	
 	public void advanceSelection() {
+		this.overlayReturn = false;
 		this.overlayAdvance = true;
-		this.rotationClamp = (rotationClamp + angleSeparation) % 360;
+		
+		this.rotationClamp = normalizeAngle(rotationClamp + angleSeparation);
 	}
 	
 	public void returnSelection() {
 		this.overlayReturn = true;
-		this.rotationClamp = treatAngle(rotationClamp - angleSeparation);
+		this.overlayAdvance = false;
+		
+		this.rotationClamp = normalizeAngle(rotationClamp - angleSeparation);
 	}
 	
 	private int angleDistance(int curAngle, int targetAngle) {
 		int dif = Math.abs(curAngle - targetAngle);
-		if(dif > 180) return 360 - dif;
+		if(dif > 180) return 360 - dif; //max angle separation of 2 points in a circle
 		else return dif;
 	}
 	
-	private int treatAngle(int angle) {
+	private int normalizeAngle(int angle) {
 		if(angle<0) return 360 - Math.abs(angle);
+		else if(angle>360) return angle % 360;
 		else return angle;
 	}
 	
 	private void rotateSelection() {
-		int increment = 360 / 36;
-		if (overlayAdvance) {
-			if(angleDistance((int) rotationAngle, rotationClamp) == 0) {
+		/*if (overlayAdvance) {
+			if(angleDistance(rotationAngle, rotationClamp) == 0) {
 				overlayAdvance = false;
 			}else {
 				rotationAngle = (rotationAngle + increment) % 360;
 			}
 		}
-		if(overlayReturn) {
-			if(angleDistance((int) rotationAngle, rotationClamp) == 0) {
+		else if(overlayReturn) {
+			if(angleDistance(rotationAngle, rotationClamp) == 0) {
 				overlayReturn = false;
 			}else {
-				rotationAngle = treatAngle(rotationAngle - increment);
+				rotationAngle = normalizeAngle(rotationAngle - increment);
+			}
+		}*/
+		if(overlayAdvance || overlayReturn) {
+			if(angleDistance(rotationAngle, rotationClamp) == 0) {
+				overlayAdvance = false;
+				overlayReturn = false;
+			}else {
+				if(overlayAdvance) rotationAngle = normalizeAngle(rotationAngle + increment);
+				if(overlayReturn) rotationAngle = normalizeAngle(rotationAngle - increment);
 			}
 		}
 	}
 	
-	public MagiaCircle(
-			String textureLocation, int textureWidth, int textureHeight,
-			int sides
-		) {
-		this.TEXTURE = ResourceLocation.fromNamespaceAndPath(Magia.MODID, textureLocation);
-		this.textureWidth = textureWidth;
-		this.textureHeight = textureHeight;
-		this.sides = sides;
-		this.angleSeparation = 360 / sides;
-	}
-	
-	public void render(GuiGraphics graphics, int screenWidth, int screenHeight) {
+	public void renderOverlay(GuiGraphics graphics, int screenWidth, int screenHeight, ResourceLocation overlayTexture, int textureWidth, int sides) {
 		//TODO holy shit doc this math im getting lost
 		//TODO make a dedicated magiacircle logic class, instead of calling and putting everything in the render pipeline
 		
+		//change this later
 		SocketData socketData = SocketItem.getData(minecraft.player.getMainHandItem());
+
+		this.angleSeparation = 360 / sides;
 		
         float xPos = (screenWidth / -1.7f) + (screenWidth / 2f);
         float yPos = xPos;
@@ -126,12 +124,12 @@ public class MagiaCircle{
         
 		PoseStack poseStack = graphics.pose();
         poseStack.pushPose();
-        poseStack.translate(xPos + textureWidth / 2f, yPos + textureHeight / 2f, 0);
+        poseStack.translate(xPos + textureWidth / 2f, yPos + textureWidth / 2f, 0);
         
         poseStack.mulPose(Axis.ZP.rotationDegrees(-rotationAngle));
         
         //TODO keep a constant overlay scaling
-		graphics.blit(TEXTURE, - textureWidth / 2, - textureHeight / 2, 0, 0, textureWidth, textureHeight, textureWidth, textureHeight);
+		graphics.blit(overlayTexture, - textureWidth / 2, - textureWidth / 2, 0, 0, textureWidth, textureWidth, textureWidth, textureWidth);
 			
     	poseStack.popPose();
 	}

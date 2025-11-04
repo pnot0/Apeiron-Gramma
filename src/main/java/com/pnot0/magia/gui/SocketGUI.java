@@ -1,6 +1,7 @@
 package com.pnot0.magia.gui;
 
 import com.pnot0.magia.Magia;
+import com.pnot0.magia.item.SocketsEnum;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -15,10 +16,10 @@ public class SocketGUI extends AbstractContainerScreen<SocketContainer>{
 	public SocketGUI(SocketContainer container, Inventory playerInventory, Component name) {
 		super(container, playerInventory, name);
 		
-		this.GUI = ResourceLocation.fromNamespaceAndPath(Magia.MODID, "textures/gui/socketmenu_gui.png");
-		this.imageWidth = 176;
-		this.imageHeight = 150;
-		
+		SocketsEnum socketTier = container.getSocketTier();
+		this.GUI = socketTier.guiTexture;
+		this.imageWidth = socketTier.guiWidth;
+		this.imageHeight = socketTier.guiHeight;
 	}
 	
 	@Override

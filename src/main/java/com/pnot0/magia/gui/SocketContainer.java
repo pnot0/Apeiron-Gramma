@@ -6,6 +6,7 @@ import com.mojang.logging.LogUtils;
 import com.pnot0.magia.Magia;
 import com.pnot0.magia.inventory.SocketContainerSlot;
 import com.pnot0.magia.item.ItemRegistry;
+import com.pnot0.magia.item.SocketsEnum;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -22,24 +23,32 @@ import net.minecraftforge.items.SlotItemHandler;
 public class SocketContainer extends AbstractContainerMenu{
 
 	private final IItemHandler handler;
+	private final SocketsEnum socketTier;
 	private final UUID uuid;
 	
 	public static SocketContainer fromNetwork(final int windowId, final Inventory inventory, FriendlyByteBuf data) {
 		UUID uuid = data.readUUID();
-		return new SocketContainer(windowId, inventory, uuid, new ItemStackHandler(3));
+		SocketsEnum socketTier = SocketsEnum.values()[data.readInt()]; 
+		return new SocketContainer(windowId, inventory, uuid, socketTier, new ItemStackHandler(socketTier.slots));
 	}
 
-	public SocketContainer(final int windowId, final Inventory inventory, UUID uuid, IItemHandler handler) {
+	public SocketContainer(final int windowId, final Inventory inventory, UUID uuid, SocketsEnum socketTier, IItemHandler handler) {
 		super(Magia.SOCKET_CONTAINER.get(), windowId);
 		
 		this.uuid = uuid;
 		this.handler = handler;
+		this.socketTier = socketTier;
 		
 		addPlayerSlots(inventory);
 		
+		//refactor this so that it can dynamically accept differnt sized socket items
 		this.addSlot(new SocketContainerSlot(this.handler, 0, 65, 36));
 		this.addSlot(new SocketContainerSlot(this.handler, 1, 80, 10));
 		this.addSlot(new SocketContainerSlot(this.handler, 2, 95, 36));
+	}
+	
+	public SocketsEnum getSocketTier() {
+		return this.socketTier;
 	}
 	
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons

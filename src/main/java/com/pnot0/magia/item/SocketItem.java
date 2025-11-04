@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.logging.LogUtils;
 import com.pnot0.magia.gui.SocketContainer;
-import com.pnot0.magia.gui.TrigramOverlay;
+import com.pnot0.magia.gui.MagiaOverlay;
 import com.pnot0.magia.inventory.SocketData;
 import com.pnot0.magia.inventory.SocketManager;
 
@@ -25,8 +25,16 @@ import net.minecraftforge.network.NetworkHooks;
 
 public class SocketItem extends Item{
 	
-	public SocketItem(Properties properties) {
-		super(properties);
+	public SocketItem(SocketsEnum socketTier) {
+		super(new Item.Properties().stacksTo(1));
+		this.socketTier = socketTier;
+	}
+	
+	private final SocketsEnum socketTier;
+	
+	public static SocketsEnum getSocketTier(ItemStack itemStack) {
+		if(!itemStack.isEmpty() && itemStack.getItem() instanceof SocketItem) return ((SocketItem) itemStack.getItem()).socketTier;
+		else return SocketsEnum.TRIANGLE;
 	}
 
 	public static SocketData getData(ItemStack itemStack) {
@@ -40,7 +48,7 @@ public class SocketItem extends Item{
 		}else {
 			uuid = tag.getUUID("UUID");
 		}
-		return SocketManager.get().getOrCreateSocket(uuid);
+		return SocketManager.get().getOrCreateSocket(uuid, ((SocketItem) itemStack.getItem()).socketTier);
 	}
 	
 	@Override
@@ -49,32 +57,32 @@ public class SocketItem extends Item{
 		return super.initCapabilities(itemStack, nbt);
 	}
 	
-	//TODO figure out a way to make this work
-	/*
-	@Override
-	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean isSelected) {
-		if(stack.getItem() == ItemRegistry.SOCKET_ITEM.get() && isSelected)
-			TrigramOverlay.instance.shouldRender(true);
-	}
-	*/
-	
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack itemStack = player.getItemInHand(hand);
 		if(!level.isClientSide() && itemStack.getItem() instanceof SocketItem) {
 			SocketData data = SocketItem.getData(itemStack);
 			
-			LogUtils.getLogger().info("how many slots: " +data.getSlots());
-			LogUtils.getLogger().info("itemstack at 1st slot to string: " +data.getStackInSlot(0).toString());
-			LogUtils.getLogger().info("item at 1st slot to string: " +data.getStackInSlot(0).getItem().toString());
+			//LogUtils.getLogger().info("how many slots: " +data.getSlots());
+			//LogUtils.getLogger().info("itemstack at 1st slot to string: " +data.getStackInSlot(0).toString());
+			//LogUtils.getLogger().info("item at 1st slot to string: " +data.getStackInSlot(0).getItem().toString());
 			
 			UUID uuid = data.getUUID();
 						
 			NetworkHooks.openScreen(
-					((ServerPlayer) player), 
+				((ServerPlayer) player), 
 					new SimpleMenuProvider((windowId, playerInventory, playerEntity) -> 
-					new SocketContainer(windowId, playerInventory, uuid, data.getHandler()), 
-					itemStack.getHoverName()), (buffer -> buffer.writeUUID(uuid)));
+						new SocketContainer(
+								windowId,
+								playerInventory,
+								uuid,
+								data.getSocketTier(),
+								data.getHandler()
+							), 
+						itemStack.getHoverName()
+					),
+				(buffer -> buffer.writeUUID(uuid).writeInt(data.getSocketTier().ordinal()))
+			);
 		}
 		
 		return InteractionResultHolder.consume(player.getItemInHand(hand));
