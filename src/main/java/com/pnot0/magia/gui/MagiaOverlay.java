@@ -39,7 +39,10 @@ public class MagiaOverlay implements IGuiOverlay{
 	public void render(ForgeGui gui, GuiGraphics graphics, float tick, int screenWidth, int screenHeight) {
 		if(shouldRender()) {
 			SocketsEnum socketTier = SocketItem.getSocketTier(minecraft.player.getMainHandItem());
-			overlay.renderOverlay(graphics, screenWidth, screenHeight, socketTier.overlayTexture, socketTier.overlayWidth, socketTier.slots);
+			overlay.renderOverlay(
+					graphics, screenWidth, screenHeight,
+					socketTier.overlayTexture, socketTier.overlayWidth,
+					socketTier.slots, socketTier.increment);
 		}
 	}
 

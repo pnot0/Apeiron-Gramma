@@ -30,7 +30,7 @@ public class SocketData {
     
     public SocketData(UUID uuid, CompoundTag tag) {
     	this.uuid = uuid;
-    	this.socketTier = SocketsEnum.values()[Math.min(tag.getInt("SocketTier"), SocketsEnum.TRIANGLE.ordinal())];
+    	this.socketTier = SocketsEnum.values()[Math.min(tag.getInt("SocketTier"), SocketsEnum.PENTAGRAM.ordinal())];
     	
     	this.inventory = new SocketItemHandler(socketTier.slots);
     	

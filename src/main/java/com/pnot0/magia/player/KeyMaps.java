@@ -14,7 +14,6 @@ public class KeyMaps {
 	
 	public static final KeyMapping ADVANCE_SS_KEY = new KeyMapping("key.magia.advance_spellschool.desc", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_Z, "key.magia.category");
 	public static final KeyMapping RETURN_SS_KEY = new KeyMapping("key.magia.return_spellschool.desc", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_X, "key.magia.category");
-
 	
 	@SubscribeEvent
     public static void registerKeyMaps(RegisterKeyMappingsEvent event) {

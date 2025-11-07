@@ -8,7 +8,8 @@ import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.RegistryObject;
 
 public enum SocketsEnum {
-	TRIANGLE("Triangle", Rarity.COMMON, 3, "triangle_socketmenu_gui.png", "triangle_socket_overlay.png", 176, 150, 300, ItemRegistry.TRIANGLE_SOCKET);
+	TRIANGLE("Triangle_Socket", Rarity.COMMON, 3, "triangle_socketmenu_inventory.png", "triangle_socket_overlay.png", 176, 200, 300, ItemRegistry.TRIANGLE_SOCKET, 10),
+	PENTAGRAM("Pentagram_Socket", Rarity.UNCOMMON, 5, "triangle_socketmenu_inventory.png", "pentagram_socket_overlay.png", 176, 200, 300, ItemRegistry.PENTAGRAM_SOCKET, 9);
 	
 	public final String name;
 	public final Rarity rarity;
@@ -16,10 +17,11 @@ public enum SocketsEnum {
 	public final ResourceLocation guiTexture, overlayTexture;
 	public final int guiWidth, guiHeight, overlayWidth;
 	public final RegistryObject<Item> item;
+	public final int increment;
 	
 	SocketsEnum(
 			String name, Rarity rarity, int slots, String guiTextureLocation, String overlayTextureLocation,
-			int guiWidth, int guiHeight, int overlayWidth, RegistryObject<Item> item
+			int guiWidth, int guiHeight, int overlayWidth, RegistryObject<Item> item, int increment
 		){
 		this.name = name;
 		this.rarity = rarity;
@@ -30,5 +32,6 @@ public enum SocketsEnum {
 		this.guiHeight = guiHeight;
 		this.overlayWidth = overlayWidth;
 		this.item = item;
+		this.increment = increment;
 	}
 }

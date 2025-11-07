@@ -40,11 +40,13 @@ public class SocketContainer extends AbstractContainerMenu{
 		this.socketTier = socketTier;
 		
 		addPlayerSlots(inventory);
+		addSocketSlots();
+
 		
-		//refactor this so that it can dynamically accept differnt sized socket items
-		this.addSlot(new SocketContainerSlot(this.handler, 0, 65, 36));
-		this.addSlot(new SocketContainerSlot(this.handler, 1, 80, 10));
-		this.addSlot(new SocketContainerSlot(this.handler, 2, 95, 36));
+		//refactor this so that it can dynamically accept different sized socket items
+		//this.addSlot(new SocketContainerSlot(this.handler, 0, 80, 17)); 
+		//this.addSlot(new SocketContainerSlot(this.handler, 1, 52, 65));
+		//this.addSlot(new SocketContainerSlot(this.handler, 2, 108, 65));
 	}
 	
 	public SocketsEnum getSocketTier() {
@@ -108,15 +110,6 @@ public class SocketContainer extends AbstractContainerMenu{
 	
 	@Override
 	public void clicked(int slot, int dragType, ClickType clickType, Player player) {
-		/*
-		if(slot>=0) {
-			LogUtils.getLogger().info("slot: " + Integer.toString(slot));
-			LogUtils.getLogger().info(getSlot(slot).getItem().toString());
-			LogUtils.getLogger().info("click type: " + ClickType.SWAP.toString());
-		}
-		
-		*/
-		
 		//Prevent moving socket item
 		if(slot >= 0 && getSlot(slot).getItem() == player.getMainHandItem())
 			return;
@@ -134,13 +127,26 @@ public class SocketContainer extends AbstractContainerMenu{
 	private void addPlayerSlots(Inventory playerInventory) {
 		for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + (l * 18), 68 + (i * 18)));
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + (l * 18), 118 + (i * 18)));
             }
         }
 
         for (int k = 0; k < 9; ++k) {
-            this.addSlot(new Slot(playerInventory, k, 8 + (k * 18), 126));
+            this.addSlot(new Slot(playerInventory, k, 8 + (k * 18), 176));
         }
+	}
+	
+	private void addSocketSlots() {
+		if (this.handler == null) return;
+		
+		for(int s = 0; s < this.socketTier.slots; s++) {
+			
+			double separationRadians = Math.toRadians(((360/socketTier.slots) * s) + 90);
+			int xPosSlot = (int) Math.round(80 + 32 * Math.cos(separationRadians));
+			int yPosSlot = (int) Math.abs(Math.round(-64 + 32 * Math.sin(separationRadians))) - 15; //offset
+			//int yPosSlot
+			this.addSlot(new SocketContainerSlot(this.handler, s, xPosSlot, yPosSlot));
+		}
 	}
 
 }

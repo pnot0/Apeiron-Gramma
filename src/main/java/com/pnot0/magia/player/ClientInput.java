@@ -19,9 +19,6 @@ public class ClientInput {
     public static void onKeyInput(InputEvent.Key event) {
         if(Minecraft.getInstance().screen == null) {
         	if(KeyMaps.ADVANCE_SS_KEY.isDown() && !KeyMaps.RETURN_SS_KEY.isDown()) {
-            	//Magia.LOGGER.info("logging key press: " + KeyMaps.ADVANCE_SS_KEY.getName());
-            	//float rotationAngle = MagiaCircle.instance.getAngle();
-            	//testing rotation
             	MagiaOverlay.instance.advanceSelection();
             }
             if(KeyMaps.RETURN_SS_KEY.isDown() && !KeyMaps.ADVANCE_SS_KEY.isDown()) {
