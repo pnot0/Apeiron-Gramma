@@ -68,10 +68,12 @@ public class Magia
     
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("magia", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> ItemRegistry.TRIANGLE_SOCKET.get().getDefaultInstance())
+            .icon(() -> ItemRegistry.COMBAT_SPELLSCHOOL.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(ItemRegistry.TRIANGLE_SOCKET.get());
+                output.accept(ItemRegistry.PENTAGRAM_SOCKET.get());
                 output.accept(ItemRegistry.TEST_SPELLSCHOOL.get());
+                output.accept(ItemRegistry.COMBAT_SPELLSCHOOL.get());
                 
             }).build());
     

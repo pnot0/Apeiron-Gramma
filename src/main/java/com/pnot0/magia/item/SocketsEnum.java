@@ -9,7 +9,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public enum SocketsEnum {
 	TRIANGLE("Triangle_Socket", Rarity.COMMON, 3, "triangle_socketmenu_inventory.png", "triangle_socket_overlay.png", 176, 200, 300, ItemRegistry.TRIANGLE_SOCKET, 10),
-	PENTAGRAM("Pentagram_Socket", Rarity.UNCOMMON, 5, "triangle_socketmenu_inventory.png", "pentagram_socket_overlay.png", 176, 200, 300, ItemRegistry.PENTAGRAM_SOCKET, 9);
+	PENTAGRAM("Pentagram_Socket", Rarity.UNCOMMON, 5, "pentagram_socketmenu_inventory.png", "pentagram_socket_overlay.png", 176, 200, 300, ItemRegistry.PENTAGRAM_SOCKET, 9);
 	
 	public final String name;
 	public final Rarity rarity;

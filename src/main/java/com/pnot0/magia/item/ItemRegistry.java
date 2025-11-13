@@ -17,17 +17,17 @@ public class ItemRegistry {
 		ITEMS.register(eventBus);
     }
     
+    public static final RegistryObject<Item> GUNGNIR = ITEMS.register("gungnir", () -> new GungnirItem());
+    
+    //SPELL SCHOOLS
     public static final RegistryObject<Item> TEST_SPELLSCHOOL = ITEMS.register("test_spellschool", () -> new SpellSchoolItem(
     		"textures/spellschool/test_spellschool.png"));
     
     public static final RegistryObject<Item> COMBAT_SPELLSCHOOL = ITEMS.register("combat_spellschool", () -> new SpellSchoolItem(
     		"textures/spellschool/combat_spellschool.png"));
     
+    //SOCKETS
     public static final RegistryObject<Item> TRIANGLE_SOCKET = ITEMS.register("triangle_socket", () -> new SocketItem(SocketsEnum.TRIANGLE));
     public static final RegistryObject<Item> PENTAGRAM_SOCKET = ITEMS.register("pentagram_socket", () -> new SocketItem(SocketsEnum.PENTAGRAM));
-    
-    //possible registry names
-    //TRIANGLE_SOCKET
-    //PENTAGRAM_SOCKET
     //OCTAGRAM_SOCKET
 }
