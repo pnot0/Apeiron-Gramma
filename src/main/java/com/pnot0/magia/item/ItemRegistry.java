@@ -26,6 +26,9 @@ public class ItemRegistry {
     public static final RegistryObject<Item> COMBAT_SPELLSCHOOL = ITEMS.register("combat_spellschool", () -> new SpellSchoolItem(
     		"textures/spellschool/combat_spellschool.png"));
     
+    public static final RegistryObject<Item> MOVEMENT_SPELLSCHOOL = ITEMS.register("movement_spellschool", () -> new SpellSchoolItem(
+    		"textures/spellschool/movement_spellschool.png"));
+    
     //SOCKETS
     public static final RegistryObject<Item> TRIANGLE_SOCKET = ITEMS.register("triangle_socket", () -> new SocketItem(SocketsEnum.TRIANGLE));
     public static final RegistryObject<Item> PENTAGRAM_SOCKET = ITEMS.register("pentagram_socket", () -> new SocketItem(SocketsEnum.PENTAGRAM));
