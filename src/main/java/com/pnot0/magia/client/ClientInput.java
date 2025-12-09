@@ -1,4 +1,4 @@
-package com.pnot0.magia.player;
+package com.pnot0.magia.client;
 
 import com.pnot0.magia.Magia;
 import com.pnot0.magia.gui.MagiaCircle;

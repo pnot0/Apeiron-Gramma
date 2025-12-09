@@ -1,6 +1,10 @@
-package com.pnot0.magia.item;
+package com.pnot0.magia.registries;
 
 import com.pnot0.magia.Magia;
+import com.pnot0.magia.item.GungnirItem;
+import com.pnot0.magia.item.SocketItem;
+import com.pnot0.magia.item.SocketsEnum;
+import com.pnot0.magia.item.SpellSchoolItem;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;

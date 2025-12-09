@@ -93,37 +93,38 @@ public class MagicExplosion extends Explosion{
 		}
 	}
 	
-	public void entityExplosion(float knockback, float damageScale) {
+	public void entityExplosion(float knockback, boolean hasKnockback, float damageScale) {
 		List<Entity> entities = level.getEntities(getDirectSourceEntity(), new AABB(posX - radius * 2, posY - radius * 2, posZ - radius * 2, posX + radius * 2, posY + radius * 2, posZ + radius * 2));
 		entities.forEach(e -> {
 			if(!e.ignoreExplosion()) {
-					double distance = Math.sqrt(e.distanceToSqr(getPosition()) / (radius * 2));
-					if(distance <= 1f) {
-						double offX = e.getX() - posX;
-						double offY = e.getEyeY() - posY;
-						double offZ = e.getZ() - posZ;
-						
-						double distanceOffset = Math.sqrt(offX * offX + offY * offY + offZ * offZ);
-						offX /= distanceOffset;
-						offY /= distanceOffset;
-						offZ /= distanceOffset;
-						
-						//Damage falloff
-						double seenPercent = getSeenPercent(getPosition(), e);
-						float damage = (1f - (float)distance / 2f * (float)seenPercent);
-						
-						float entityDamage = (damage * damage + damage) * radius * damageScale;
-						
-						LogUtils.getLogger().info(
-									"Entity damage at (x: " + Double.toString(offX) + 
-									", y: " + Double.toString(offY) + 
-									", z: " + Double.toString(offZ) + "): " + 
-									Float.toString(entityDamage)
-								);
-						
-						e.hurt(getDamageSource(), entityDamage);
-						
-						double knockbackDamage = damage;
+				double distance = Math.sqrt(e.distanceToSqr(getPosition()) / (radius * 4f));
+				if(distance <= 1f) {
+					double offX = e.getX() - posX;
+					double offY = e.getEyeY() - posY;
+					double offZ = e.getZ() - posZ;
+					
+					double distanceOffset = Math.sqrt(offX * offX + offY * offY + offZ * offZ);
+					offX /= distanceOffset;
+					offY /= distanceOffset;
+					offZ /= distanceOffset;
+					
+					//Damage falloff
+					double seenPercent = getSeenPercent(getPosition(), e);
+					float damage = (1f - ((float)distance / 2f) * (float)seenPercent);
+					
+					float entityDamage = (damage * damage + damage) * radius * damageScale;
+					
+					LogUtils.getLogger().info(
+								"Entity damage at (x: " + Double.toString(offX) + 
+								", y: " + Double.toString(offY) + 
+								", z: " + Double.toString(offZ) + "): " + 
+								Float.toString(entityDamage)
+							);
+					
+					e.hurt(getDamageSource(), entityDamage);
+					
+					if(hasKnockback) {
+						double knockbackDamage = damage / (radius * radius);
 						
 						if(e instanceof LivingEntity lE)
 							knockbackDamage = ProtectionEnchantment.getExplosionKnockbackAfterDampener(lE, entityDamage);
@@ -133,15 +134,16 @@ public class MagicExplosion extends Explosion{
 								offY * knockbackDamage * knockback,
 								offZ * knockbackDamage * knockback
 							));
-						
-						if (e instanceof Player) {
-							Player player = (Player) e;
-							player.hurtMarked = true;
-							if(!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {
-								getHitPlayers().put(player, new Vec3(offX * entityDamage, offY * entityDamage, offZ * entityDamage));
-							}
+					}
+					
+					if (e instanceof Player) {
+						Player player = (Player) e;
+						player.hurtMarked = true;
+						if(!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {
+							getHitPlayers().put(player, new Vec3(offX * entityDamage, offY * entityDamage, offZ * entityDamage));
 						}
 					}
+				}
 			}
 		});
 	}

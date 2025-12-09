@@ -5,10 +5,10 @@ import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.logging.LogUtils;
-import com.pnot0.magia.gui.SocketContainer;
+import com.pnot0.magia.data.SocketData;
+import com.pnot0.magia.data.SocketManager;
 import com.pnot0.magia.gui.MagiaOverlay;
-import com.pnot0.magia.inventory.SocketData;
-import com.pnot0.magia.inventory.SocketManager;
+import com.pnot0.magia.inventory.SocketContainer;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;

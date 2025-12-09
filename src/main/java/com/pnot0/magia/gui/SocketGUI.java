@@ -1,6 +1,7 @@
 package com.pnot0.magia.gui;
 
 import com.pnot0.magia.Magia;
+import com.pnot0.magia.inventory.SocketContainer;
 import com.pnot0.magia.item.SocketsEnum;
 
 import net.minecraft.client.gui.GuiGraphics;

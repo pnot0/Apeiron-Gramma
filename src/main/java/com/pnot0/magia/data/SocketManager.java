@@ -1,4 +1,4 @@
-package com.pnot0.magia.inventory;
+package com.pnot0.magia.data;
 
 import java.util.HashMap;
 import java.util.UUID;

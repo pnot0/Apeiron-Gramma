@@ -1,5 +1,7 @@
 package com.pnot0.magia.inventory;
 
+import com.pnot0.magia.data.SocketManager;
+
 import net.minecraftforge.items.ItemStackHandler;
 
 public class SocketItemHandler extends ItemStackHandler{

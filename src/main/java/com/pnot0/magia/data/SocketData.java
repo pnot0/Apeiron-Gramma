@@ -1,8 +1,9 @@
-package com.pnot0.magia.inventory;
+package com.pnot0.magia.data;
 
 import java.util.Optional;
 import java.util.UUID;
 
+import com.pnot0.magia.inventory.SocketItemHandler;
 import com.pnot0.magia.item.SocketsEnum;
 
 import net.minecraft.nbt.CompoundTag;

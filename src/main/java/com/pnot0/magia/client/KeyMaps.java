@@ -1,4 +1,4 @@
-package com.pnot0.magia.player;
+package com.pnot0.magia.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.pnot0.magia.Magia;

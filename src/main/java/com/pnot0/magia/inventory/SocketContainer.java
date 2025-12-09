@@ -1,12 +1,11 @@
-package com.pnot0.magia.gui;
+package com.pnot0.magia.inventory;
 
 import java.util.UUID;
 
 import com.mojang.logging.LogUtils;
 import com.pnot0.magia.Magia;
-import com.pnot0.magia.inventory.SocketContainerSlot;
-import com.pnot0.magia.item.ItemRegistry;
 import com.pnot0.magia.item.SocketsEnum;
+import com.pnot0.magia.registries.ItemRegistry;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -41,12 +40,6 @@ public class SocketContainer extends AbstractContainerMenu{
 		
 		addPlayerSlots(inventory);
 		addSocketSlots();
-
-		
-		//refactor this so that it can dynamically accept different sized socket items
-		//this.addSlot(new SocketContainerSlot(this.handler, 0, 80, 17)); 
-		//this.addSlot(new SocketContainerSlot(this.handler, 1, 52, 65));
-		//this.addSlot(new SocketContainerSlot(this.handler, 2, 108, 65));
 	}
 	
 	public SocketsEnum getSocketTier() {
@@ -146,7 +139,6 @@ public class SocketContainer extends AbstractContainerMenu{
 			double separationRadians = Math.toRadians(((360/socketTier.slots) * s) + 90);
 			int xPosSlot = (int) Math.round(80 + 32 * Math.cos(separationRadians));
 			int yPosSlot = (int) Math.abs(Math.round(-64 + 32 * Math.sin(separationRadians))) - 15; //offset
-			//int yPosSlot
 			this.addSlot(new SocketContainerSlot(this.handler, s, xPosSlot, yPosSlot));
 		}
 	}

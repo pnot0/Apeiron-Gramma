@@ -3,8 +3,6 @@ package com.pnot0.magia.data;
 import java.util.HashMap;
 
 import com.pnot0.magia.Magia;
-import com.pnot0.magia.inventory.SocketData;
-import com.pnot0.magia.inventory.SocketManager;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

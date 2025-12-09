@@ -2,10 +2,10 @@ package com.pnot0.magia;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
-import com.pnot0.magia.gui.SocketContainer;
 import com.pnot0.magia.gui.SocketGUI;
+import com.pnot0.magia.inventory.SocketContainer;
+import com.pnot0.magia.registries.ItemRegistry;
 import com.pnot0.magia.gui.MagiaOverlay;
-import com.pnot0.magia.item.ItemRegistry;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -66,6 +66,7 @@ public class Magia
     
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     
+    //TODO dedicated creative registry 
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("magia", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> ItemRegistry.COMBAT_SPELLSCHOOL.get().getDefaultInstance())
@@ -74,14 +75,12 @@ public class Magia
                 output.accept(ItemRegistry.PENTAGRAM_SOCKET.get());
                 output.accept(ItemRegistry.TEST_SPELLSCHOOL.get());
                 output.accept(ItemRegistry.COMBAT_SPELLSCHOOL.get());
-                
+                output.accept(ItemRegistry.MOVEMENT_SPELLSCHOOL.get());
             }).build());
     
     public Magia(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
-
-        modEventBus.addListener(this::commonSetup);
 
         BLOCKS.register(modEventBus);
         CONTAINERS.register(modEventBus);
@@ -92,19 +91,7 @@ public class Magia
 
         modEventBus.addListener(this::addCreative);
 
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-    }
-    
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-        LOGGER.info("HELLO FROM COMMON SETUP");
-
-        if (Config.logDirtBlock)
-            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-
-        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        //context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event)

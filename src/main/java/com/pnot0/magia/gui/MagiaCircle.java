@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.logging.LogUtils;
 import com.mojang.math.Axis;
 import com.pnot0.magia.Magia;
+import com.pnot0.magia.data.SocketData;
 import com.pnot0.magia.data.SpellSchoolData;
-import com.pnot0.magia.inventory.SocketData;
 import com.pnot0.magia.item.SocketItem;
 import com.pnot0.magia.item.SpellSchoolItem;
 

@@ -1,9 +1,9 @@
 package com.pnot0.magia.gui;
 
 import com.mojang.logging.LogUtils;
-import com.pnot0.magia.item.ItemRegistry;
 import com.pnot0.magia.item.SocketItem;
 import com.pnot0.magia.item.SocketsEnum;
+import com.pnot0.magia.registries.ItemRegistry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

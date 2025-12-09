@@ -1,6 +1,7 @@
 package com.pnot0.magia.item;
 
 import com.pnot0.magia.Magia;
+import com.pnot0.magia.registries.ItemRegistry;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
