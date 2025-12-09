@@ -2,7 +2,6 @@ package com.pnot0.magia.item;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.logging.LogUtils;
 import com.pnot0.magia.data.SpellSchoolData;
 import com.pnot0.magia.data.SpellSchoolManager;
 

@@ -4,10 +4,8 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.logging.LogUtils;
 import com.pnot0.magia.data.SocketData;
 import com.pnot0.magia.data.SocketManager;
-import com.pnot0.magia.gui.MagiaOverlay;
 import com.pnot0.magia.inventory.SocketContainer;
 
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +13,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

@@ -1,57 +1,40 @@
 package com.pnot0.magia;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
 import com.pnot0.magia.gui.SocketGUI;
 import com.pnot0.magia.inventory.SocketContainer;
 import com.pnot0.magia.registries.ItemRegistry;
+import com.pnot0.magia.render.RenderManager;
 import com.pnot0.magia.gui.MagiaOverlay;
 
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.core.NonNullList;
+import net.minecraft.client.renderer.PostChain;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.food.FoodProperties;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 
 @Mod(Magia.MODID)
@@ -78,8 +61,7 @@ public class Magia
                 output.accept(ItemRegistry.MOVEMENT_SPELLSCHOOL.get());
             }).build());
     
-    public Magia(FMLJavaModLoadingContext context)
-    {
+    public Magia(FMLJavaModLoadingContext context){
         IEventBus modEventBus = context.getModEventBus();
 
         BLOCKS.register(modEventBus);
@@ -94,35 +76,33 @@ public class Magia
         //context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void addCreative(BuildCreativeModeTabContentsEvent event)
-    {
+    private void addCreative(BuildCreativeModeTabContentsEvent event){
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
             event.accept(ItemRegistry.TRIANGLE_SOCKET);
     }
 
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
+    public void onServerStarting(ServerStartingEvent event){
         LOGGER.info("HELLO from server starting");
     }
-    
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
+
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
+    public static class ClientModEvents{
     	
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-            
+        public static void onClientSetup(FMLClientSetupEvent event){            
             MenuScreens.register(SOCKET_CONTAINER.get(), SocketGUI::new);
+            RenderManager.checkIrisLoaded();
          }
         
         @SubscribeEvent
         public static void registerOverlays(RegisterGuiOverlaysEvent event) {
         	event.registerAboveAll(MODID + "_overlay", MagiaOverlay.instance);
+        }
+        
+        @SubscribeEvent
+        public static void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {
+        	RenderManager.registerReloadListener(event);
         }
     }
 }

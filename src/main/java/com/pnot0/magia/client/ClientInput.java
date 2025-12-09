@@ -1,12 +1,9 @@
 package com.pnot0.magia.client;
 
 import com.pnot0.magia.Magia;
-import com.pnot0.magia.gui.MagiaCircle;
 import com.pnot0.magia.gui.MagiaOverlay;
 
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.NonNullList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

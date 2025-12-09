@@ -6,8 +6,6 @@ import com.pnot0.magia.item.SocketItem;
 import com.pnot0.magia.item.SocketsEnum;
 import com.pnot0.magia.item.SpellSchoolItem;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

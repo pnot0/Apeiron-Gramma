@@ -1,7 +1,6 @@
 package com.pnot0.magia.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.logging.LogUtils;
 import com.mojang.math.Axis;
 import com.pnot0.magia.Magia;
 import com.pnot0.magia.data.SocketData;
