@@ -14,9 +14,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.fml.ModList;
 
-public class RenderManager {
-	public static final RenderManager instance = new RenderManager();
-	
+public class RenderManager {	
 	private static boolean hasIris = false;
 	private static boolean shaderpackActive = false;
 	

@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.ProtectionEnchantment;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.EntityBasedExplosionDamageCalculator;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
@@ -18,6 +19,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class MagicExplosion extends Explosion{
@@ -39,6 +42,64 @@ public class MagicExplosion extends Explosion{
 		this.radius = radius;
 		this.damageSource = damageSource == null ? level.damageSources().explosion(this) : damageSource;
 		damageCalculator = explodingEntity == null ? new ExplosionDamageCalculator() : new EntityBasedExplosionDamageCalculator(explodingEntity);
+	}
+	
+	public static BlockPos findBlockPos(Level level, Player player, float range) {
+		Vec3 look = player.getLookAngle();
+		Vec3 start = new Vec3(player.getX(), player.getY() + player.getEyeHeight(), player.getZ());
+		Vec3 end = new Vec3(player.getX() + look.x * range, player.getY() + player.getEyeHeight() + look.y * range, player.getZ() + look.z * range);
+		
+		HitResult hitResult = level.clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+		if (hitResult.getType() != HitResult.Type.MISS) {
+			end = hitResult.getLocation();
+		}
+
+		HitResult entityHitResult = entityHit(player, start, end, player.getBoundingBox().expandTowards(end).inflate((double) range), start.distanceToSqr(end));
+		if (entityHitResult != null) hitResult = entityHitResult;
+		
+		BlockPos blockPos = new BlockPos(
+				(int) hitResult.getLocation().x(),
+				(int) hitResult.getLocation().y(),
+				(int) hitResult.getLocation().z()
+			);
+		
+		return blockPos;
+	}
+	
+	private static EntityHitResult entityHit(Player player, Vec3 start, Vec3 end, AABB boundingBox, double distance) {
+		Level level = player.level();
+		double distanceFrom = distance;
+		Entity entity = null;
+		Vec3 pos = null;
+		
+		for (Entity e : level.getEntities(player, boundingBox)){
+			AABB entityBox = e.getBoundingBox().inflate((double)e.getPickRadius() * 2d);
+			Optional<Vec3> optional = entityBox.clip(start, end);
+			if(entityBox.contains(start)) {
+				if(distanceFrom >= 0d) {
+					entity = e;
+					pos = optional.orElse(start);
+					distanceFrom = 0d;
+				}
+			} else if(optional.isPresent()) {
+				Vec3 optionalVec = optional.get();
+				double distanceTo = start.distanceToSqr(optionalVec);
+				if(distanceTo < distanceFrom || distanceFrom == 0d) {
+					if(e.getRootVehicle() == player.getRootVehicle() && !e.canRiderInteract()) {
+						if(distanceFrom == 0d) {
+							entity = e;
+							pos = optionalVec;
+						}
+					} else {
+						entity = e;
+						pos = optionalVec;
+						distanceFrom = distanceTo;
+					}
+				}
+			}
+		}
+		
+		return entity == null? null : new EntityHitResult(entity, pos);
 	}
 	
 	public void blockExplosion(float xzStrength, float yStrength, float resistance, float randomVec, boolean strongExplosion) {
