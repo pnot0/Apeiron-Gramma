@@ -2,22 +2,18 @@ package com.pnot0.magia.inventory;
 
 import java.util.UUID;
 
-import com.mojang.logging.LogUtils;
 import com.pnot0.magia.Magia;
 import com.pnot0.magia.item.SocketsEnum;
-import com.pnot0.magia.registries.ItemRegistry;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.SlotItemHandler;
 
 public class SocketContainer extends AbstractContainerMenu{
 

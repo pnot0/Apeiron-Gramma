@@ -2,15 +2,15 @@ package com.pnot0.magia.spells;
 
 import java.util.List;
 import java.util.Optional;
+
 import javax.annotation.Nullable;
 
 import com.mojang.logging.LogUtils;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.enchantment.ProtectionEnchantment;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.EntityBasedExplosionDamageCalculator;
 import net.minecraft.world.level.Explosion;
@@ -130,6 +130,7 @@ public class MagicExplosion extends Explosion{
 							}
 							BlockState blockState = level.getBlockState(pos);
 							FluidState fluidState = level.getFluidState(pos);
+							//TODO: make strong explosion not delete a black list of blocks
 							if(!strongExplosion && fluidState.isEmpty()) {
 								Optional<Float> explosionResistance = damageCalculator.getBlockExplosionResistance(this, level, pos, blockState, fluidState);
 								if(explosionResistance.isPresent()) {
@@ -149,11 +150,11 @@ public class MagicExplosion extends Explosion{
 		}
 	}
 	
-	public void entityExplosion(float knockback, boolean hasKnockback, float damageScale) {
+	public void entityExplosion(Player casterPlayer, float knockback, float damageScale) {
 		List<Entity> entities = level.getEntities(getDirectSourceEntity(), new AABB(posX - radius * 2, posY - radius * 2, posZ - radius * 2, posX + radius * 2, posY + radius * 2, posZ + radius * 2));
 		entities.forEach(e -> {
 			if(!e.ignoreExplosion()) {
-				double distance = Math.sqrt(e.distanceToSqr(getPosition()) / (radius * 4f));
+				double distance = Math.sqrt(e.distanceToSqr(getPosition()) / (radius * 2f));
 				if(distance <= 1f) {
 					double offX = e.getX() - posX;
 					double offY = e.getEyeY() - posY;
@@ -166,7 +167,7 @@ public class MagicExplosion extends Explosion{
 					
 					//Damage falloff
 					double seenPercent = getSeenPercent(getPosition(), e);
-					float damage = (1f - ((float)distance / 2f) * (float)seenPercent);
+					float damage = (1f - ((float)distance) * (float)seenPercent);
 					
 					float entityDamage = (damage * damage + damage) * radius * damageScale;
 					
@@ -177,18 +178,16 @@ public class MagicExplosion extends Explosion{
 								Float.toString(entityDamage)
 							);
 					
-					e.hurt(getDamageSource(), entityDamage);
-					
-					if(hasKnockback) {
-						double knockbackDamage = damage / (radius * radius);
+					if(!(e instanceof Player) || ((Player) e != casterPlayer))
+						e.hurt(getDamageSource(), entityDamage);
+					else
+						e.hurt(getDamageSource(), 5f);
 						
-						if(e instanceof LivingEntity lE)
-							knockbackDamage = ProtectionEnchantment.getExplosionKnockbackAfterDampener(lE, entityDamage);
-						
+					if(knockback > 0f) {
 						e.setDeltaMovement(e.getDeltaMovement().add(
-								offX * knockbackDamage * knockback,
-								offY * knockbackDamage * knockback,
-								offZ * knockbackDamage * knockback
+								offX * knockback,
+								offY * knockback,
+								offZ * knockback
 							));
 					}
 					

@@ -1,19 +1,17 @@
 package com.pnot0.magia;
 
+import org.slf4j.Logger;
+
 import com.mojang.logging.LogUtils;
+import com.pnot0.magia.gui.MagiaOverlay;
 import com.pnot0.magia.gui.SocketGUI;
 import com.pnot0.magia.inventory.SocketContainer;
+import com.pnot0.magia.network.MagiaNetwork;
 import com.pnot0.magia.registries.ItemRegistry;
 import com.pnot0.magia.render.RenderManager;
-import com.pnot0.magia.gui.MagiaOverlay;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -27,15 +25,13 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import org.slf4j.Logger;
 
 @Mod(Magia.MODID)
 public class Magia
@@ -72,8 +68,8 @@ public class Magia
         MinecraftForge.EVENT_BUS.register(this);
 
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(this::networkInit);
 
-        //context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event){
@@ -81,6 +77,10 @@ public class Magia
             event.accept(ItemRegistry.TRIANGLE_SOCKET);
     }
 
+	private void networkInit(FMLCommonSetupEvent event) {
+		event.enqueueWork(MagiaNetwork::init);
+	}
+    
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event){
         LOGGER.info("HELLO from server starting");

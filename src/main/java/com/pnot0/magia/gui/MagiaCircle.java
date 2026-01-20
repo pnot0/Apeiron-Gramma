@@ -74,10 +74,12 @@ public class MagiaCircle{
 		this.angleSeparation = 360 / sides;
 		this.increment = increment;
 		
-        float xPos = (screenWidth / -1.7f) + (screenWidth / 2f);
-        float yPos = xPos;
+        float xPos = (screenWidth / -1.55f) + (screenWidth / 2f);
+        float yPos = xPos - xPos / 2f;
         
-        float centerPos = ((float) xPos + (xPos + (float) textureWidth)) / 2f;
+        float centerX = ((float) xPos + (xPos + (float) textureWidth)) / 2f;
+        float centerY = ((float) yPos + (yPos + (float) textureWidth)) / 2f;
+        
         rotateSelection();
         int textureSize = 32;
         
@@ -96,8 +98,8 @@ public class MagiaCircle{
         		
         		//i dont know why yPos has to be flipped, or xpos also, this formula needs some work
         		
-        		float xPosRotation = (float) ((centerPos - textureSize/2f) + ((textureWidth+4+(textureSize/4f))/4f) * Math.cos(separationRadians));
-	        	float yPosRotation = (float) ((centerPos - textureSize/2f) + ((textureWidth+4+(textureSize/4f))/4f) * Math.sin(separationRadians+Math.toRadians(180)));
+        		float xPosRotation = (float) ((centerX - textureSize/2f) + ((textureWidth+4+(textureSize/4f))/4f) * Math.cos(separationRadians));
+	        	float yPosRotation = (float) ((centerY - textureSize/2f) + ((textureWidth+4+(textureSize/4f))/4f) * Math.sin(separationRadians+Math.toRadians(180)));
 	        	
 	        	PoseStack poseStack = graphics.pose();
 	        	poseStack.pushPose();
